@@ -22,7 +22,7 @@ let package = Package(
             ],
             publicHeadersPath: "include/geolocator_apple",
             cSettings: [
-                .headerSearchPath("include/geolocator_apple")
+                .headerSearchPath("include/geolocator_apple"),
                 // Disable "Always" location permission - only use "When In Use"
                 .define("BYPASS_PERMISSION_LOCATION_ALWAYS", to: "1")
             ]
