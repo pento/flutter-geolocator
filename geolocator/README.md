@@ -106,6 +106,18 @@ post_install do |installer|
 end
 ```
 
+When your project uses Swift Package Manager (SPM) instead of CocoaPods, set the `BYPASS_PERMISSION_LOCATION_ALWAYS` environment variable when building:
+```bash
+BYPASS_PERMISSION_LOCATION_ALWAYS=1 flutter build ios
+```
+
+Alternatively, the compiler will look for an `NSLocationAlwaysAndWhenInUseUsageDescription` or `NSLocationAlwaysUsageDescription` entry in your app's Info.plist, and bypasses automatically when it finds neither.
+
+SPM caches package manifest evaluation, so after changing Info.plist or the environment variable, clear the cache once to force `Package.swift` to be re-evaluated:
+```bash
+rm -rf ~/Library/Developer/Xcode/DerivedData ~/Library/Caches/org.swift.swiftpm ios/.build
+```
+
 If you do want to receive updates when your App is in the background (or if you don't bypass the permission request as described above) then you'll need to:
 * Add the Background Modes capability to your XCode project (Project > Signing and Capabilities > "+ Capability" button) and select Location Updates. Be careful with this, you will need to explain in detail to Apple why your App needs this when submitting your App to the AppStore. If Apple isn't satisfied with the explanation your App will be rejected.
 * Add an `NSLocationAlwaysAndWhenInUseUsageDescription` entry to your Info.plist (use `NSLocationAlwaysUsageDescription` if you're targeting iOS <11.0) 
